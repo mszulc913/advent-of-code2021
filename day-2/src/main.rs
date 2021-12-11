@@ -6,7 +6,7 @@ fn main() {
 }
 
 fn part1() -> i32 {
-    let (horizontal_result, depth_final) = fs::read_to_string("input.txt")
+    let (horizontal_final, depth_final) = fs::read_to_string("input.txt")
         .expect("Unable to read input file.")
         .lines()
         .map(|line| line.split_once(" ").unwrap())
@@ -19,7 +19,7 @@ fn part1() -> i32 {
                 _ => (horizontal, depth),
             }
         });
-    horizontal_result * depth_final
+    horizontal_final * depth_final
 }
 
 fn part2() -> i32 {
