@@ -10,16 +10,13 @@ fn main() {
 
 fn part1() -> u32 {
     let mut counts = [0; CODE_LENGTH];
-    for line in fs::read_to_string("input.txt")
+    for line in fs::read_to_string("day-3/input.txt")
         .expect("Unable to read input file.")
         .lines()
     {
         for (i, c) in line.chars().enumerate() {
-            match c {
-                '1' => {
-                    counts[i] += 1;
-                }
-                _ => {}
+            if c == '1' {
+                counts[i] += 1;
             }
         }
     }
@@ -54,16 +51,15 @@ fn part2() -> u32 {
 
 fn read_numbers() -> Vec<Vec<u32>> {
     let mut numbers = vec![vec![0; CODE_LENGTH]; NUM_CODES];
-    fs::read_to_string("input.txt")
+    fs::read_to_string("day-3/input.txt")
         .expect("Unable to read input file.")
         .lines()
         .enumerate()
         .for_each(|(i, line)| {
-            line.chars().enumerate().for_each(|(j, c)| match c {
-                '1' => {
+            line.chars().enumerate().for_each(|(j, c)| {
+                if c == '1' {
                     numbers[i][j] = 1;
                 }
-                _ => {}
             })
         });
     numbers

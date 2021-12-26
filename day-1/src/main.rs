@@ -18,7 +18,7 @@ fn part2() -> usize {
 }
 
 fn load_measurements() -> Vec<i32> {
-    let measurements: Vec<i32> = fs::read_to_string("input.txt")
+    let measurements: Vec<i32> = fs::read_to_string("day-1/input.txt")
         .expect("Unable to read input file.")
         .lines()
         .map(|line| line.parse::<i32>().unwrap())

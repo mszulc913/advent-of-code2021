@@ -6,7 +6,7 @@ fn main() {
 }
 
 fn part1() -> i32 {
-    let (horizontal_final, depth_final) = fs::read_to_string("input.txt")
+    let (horizontal_final, depth_final) = fs::read_to_string("day-2/input.txt")
         .expect("Unable to read input file.")
         .lines()
         .map(|line| line.split_once(" ").unwrap())
@@ -23,7 +23,7 @@ fn part1() -> i32 {
 }
 
 fn part2() -> i32 {
-    let (horizontal_final, depth_final, _) = fs::read_to_string("input.txt")
+    let (horizontal_final, depth_final, _) = fs::read_to_string("day-2/input.txt")
         .expect("Unable to read input file.")
         .lines()
         .map(|line| line.split_once(" ").unwrap())
