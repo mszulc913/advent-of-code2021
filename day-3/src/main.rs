@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, cmp::Ordering};
 
 const CODE_LENGTH: usize = 12;
 const NUM_CODES: usize = 1000;
@@ -42,7 +42,7 @@ enum Criteria {
 
 fn part2() -> u32 {
     let input_bits = read_numbers();
-    let input_bits_as_refs = &(input_bits.iter().map(|x| x).collect());
+    let input_bits_as_refs: &Vec<&Vec<u32>> = &(input_bits.iter().collect());
     let oxygen_generator_rating = read_rating(input_bits_as_refs, Criteria::Oxygen);
     let o2_scrubber_rating = read_rating(input_bits_as_refs, Criteria::O2Scrubber);
 
@@ -65,7 +65,7 @@ fn read_numbers() -> Vec<Vec<u32>> {
     numbers
 }
 
-fn read_rating(numbers: &Vec<&Vec<u32>>, criteria: Criteria) -> u32 {
+fn read_rating(numbers: &[&Vec<u32>], criteria: Criteria) -> u32 {
     let mut numbers_left = filter_numbers(numbers, 0, criteria);
     let mut i = 1;
     while numbers_left.len() != 1 {
@@ -76,7 +76,7 @@ fn read_rating(numbers: &Vec<&Vec<u32>>, criteria: Criteria) -> u32 {
 }
 
 fn filter_numbers<'a>(
-    numbers: &Vec<&'a Vec<u32>>,
+    numbers: &[&'a Vec<u32>],
     idx: usize,
     criteria: Criteria,
 ) -> Vec<&'a Vec<u32>> {
@@ -90,20 +90,24 @@ fn filter_numbers<'a>(
         }
     });
 
-    if ones.len() > zeros.len() {
-        match criteria {
-            Criteria::Oxygen => ones,
-            Criteria::O2Scrubber => zeros,
+    match ones.len().cmp(&zeros.len()) {
+        Ordering::Greater => {
+            match criteria {
+                Criteria::Oxygen => ones,
+                Criteria::O2Scrubber => zeros,
+            }
         }
-    } else if ones.len() < zeros.len() {
-        match criteria {
-            Criteria::Oxygen => zeros,
-            Criteria::O2Scrubber => ones,
+        Ordering::Less => {
+            match criteria {
+                Criteria::Oxygen => zeros,
+                Criteria::O2Scrubber => ones,
+            }
         }
-    } else {
-        match criteria {
-            Criteria::Oxygen => ones,
-            Criteria::O2Scrubber => zeros,
+        Ordering::Equal => {
+            match criteria {
+                Criteria::Oxygen => ones,
+                Criteria::O2Scrubber => zeros,
+            }
         }
     }
 }
