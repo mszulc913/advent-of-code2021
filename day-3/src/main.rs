@@ -1,4 +1,4 @@
-use std::{fs, cmp::Ordering};
+use std::{cmp::Ordering, fs};
 
 const CODE_LENGTH: usize = 12;
 const NUM_CODES: usize = 1000;
@@ -91,23 +91,17 @@ fn filter_numbers<'a>(
     });
 
     match ones.len().cmp(&zeros.len()) {
-        Ordering::Greater => {
-            match criteria {
-                Criteria::Oxygen => ones,
-                Criteria::O2Scrubber => zeros,
-            }
-        }
-        Ordering::Less => {
-            match criteria {
-                Criteria::Oxygen => zeros,
-                Criteria::O2Scrubber => ones,
-            }
-        }
-        Ordering::Equal => {
-            match criteria {
-                Criteria::Oxygen => ones,
-                Criteria::O2Scrubber => zeros,
-            }
-        }
+        Ordering::Greater => match criteria {
+            Criteria::Oxygen => ones,
+            Criteria::O2Scrubber => zeros,
+        },
+        Ordering::Less => match criteria {
+            Criteria::Oxygen => zeros,
+            Criteria::O2Scrubber => ones,
+        },
+        Ordering::Equal => match criteria {
+            Criteria::Oxygen => ones,
+            Criteria::O2Scrubber => zeros,
+        },
     }
 }
