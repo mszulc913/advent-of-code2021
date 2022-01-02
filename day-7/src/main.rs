@@ -11,6 +11,8 @@ fn part1() -> i32 {
         .split(',')
         .map(|c| c.parse().unwrap())
         .collect::<Vec<i32>>();
+
+    // median value minimizes the sum of discrepancies
     let mid = positions.len() / 2;
     let (_, &mut final_pos, _) = positions.select_nth_unstable(mid);
 
@@ -30,18 +32,18 @@ fn part2() -> i32 {
         })
         .collect::<Vec<i32>>();
 
-    let costs = (0..=max_position)
-        .scan(0, |acc, pos| {
-            *acc += pos;
-            Some(*acc)
-        })
-        .collect::<Vec<i32>>();
+    // mean value minimizes the sum of squared discrepancies
+    let mean = positions.iter().sum::<i32>() / positions.len() as i32;
 
-    (0..positions.len())
-        .map(|i| {
+    [mean, mean + 1]
+        .iter()
+        .map(|&i| {
             positions
                 .iter()
-                .map(|&pos| costs[(pos - i as i32).abs() as usize])
+                .map(|&pos| {
+                    let n = (pos - i).abs();
+                    n * (n + 1) / 2 // fuel cost calculation via Gauss formula
+                })
                 .sum()
         })
         .min()
