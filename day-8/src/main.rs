@@ -1,4 +1,4 @@
-use std::{collections::BTreeSet, fs};
+use std::{collections::HashSet, fs};
 
 fn main() {
     println!("Part 1: {}", part1());
@@ -40,8 +40,8 @@ fn part2() -> usize {
         .sum()
 }
 
-fn extract_codes(values_str: &str, sort: bool) -> Vec<BTreeSet<char>> {
-    let mut patterns: Vec<BTreeSet<char>> = values_str
+fn extract_codes(values_str: &str, sort: bool) -> Vec<HashSet<char>> {
+    let mut patterns: Vec<HashSet<char>> = values_str
         .split_whitespace()
         .map(|value| value.chars().collect())
         .collect();
@@ -51,12 +51,12 @@ fn extract_codes(values_str: &str, sort: bool) -> Vec<BTreeSet<char>> {
     patterns
 }
 
-fn decode_line(patterns: &[BTreeSet<char>], output_values: &[BTreeSet<char>]) -> usize {
+fn decode_line(patterns: &[HashSet<char>], output_values: &[HashSet<char>]) -> usize {
     // patterns are sorted by len
     let one = &patterns[0];
     let four = &patterns[2];
     let seven = &patterns[1];
-    let b_and_d: BTreeSet<char> = four.difference(seven).copied().collect();
+    let b_and_d: HashSet<char> = four.difference(seven).copied().collect();
     output_values
         .iter()
         .map(|value| {
