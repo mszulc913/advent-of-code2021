@@ -1,4 +1,4 @@
-use std::{collections::VecDeque, fs};
+use std::fs;
 
 const DIRECTIONS: [(isize, isize); 4] = [(0, 1), (1, 0), (-1, 0), (0, -1)];
 
@@ -81,10 +81,10 @@ fn part2() -> u32 {
 fn get_basin_size(x: isize, y: isize, heightmap: &Heightmap, visited: &mut Vec<Vec<bool>>) -> u32 {
     let mut size = 1;
     let value = heightmap.get(x, y).unwrap();
-    let mut stack = VecDeque::new();
+    let mut stack = Vec::new();
     push_neighbors(&mut stack, x, y, value, visited);
 
-    while let Some((neighbor_x, neighbor_y, prev_value)) = stack.pop_back() {
+    while let Some((neighbor_x, neighbor_y, prev_value)) = stack.pop() {
         if let Some(neighbor_value) = heightmap.get(neighbor_x, neighbor_y) {
             if !visited[neighbor_y as usize][neighbor_x as usize]
                 && neighbor_value < 9
@@ -100,7 +100,7 @@ fn get_basin_size(x: isize, y: isize, heightmap: &Heightmap, visited: &mut Vec<V
 }
 
 fn push_neighbors(
-    stack: &mut VecDeque<(isize, isize, u32)>,
+    stack: &mut Vec<(isize, isize, u32)>,
     x: isize,
     y: isize,
     value: u32,
@@ -111,7 +111,7 @@ fn push_neighbors(
         if let Some(is_point_visited) = visited.get(y as usize).and_then(|row| row.get(x as usize))
         {
             if !is_point_visited {
-                stack.push_back((x, y, value));
+                stack.push((x, y, value));
             }
         }
     }
